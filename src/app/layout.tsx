@@ -1,44 +1,35 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google"; // Import font
+// src/app/layout.tsx
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import QueryProvider from "@/providers/query-provider";
-import { ThemeProvider } from "@/components/theme-provider";
-
-// QUAN TRỌNG: Phải khai báo biến font ở đây thì bên dưới mới dùng được
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import Providers from "./provider"; // Đảm bảo đường dẫn đúng tới file provider.tsx của bạn
 
 export const metadata: Metadata = {
-  title: "KODE Project",
-  description: "Next.js 15 Professional Boilerplate",
+  title: "KoDe - Đặt vé máy bay & khách sạn giá rẻ",
+  description: "Đặt vé máy bay, phòng khách sạn giá rẻ",
+  manifest: "/manifest.json",
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  themeColor: "#0086F0",
+};
+
+// Layout này BẮT BUỘC phải có <html> và <body>
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="vi" suppressHydrationWarning>
       <body
-        // Bây giờ biến geistSans và geistMono đã tồn tại để dùng
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        suppressHydrationWarning={true}
+        className="antialiased pb-20 md:pb-0" // pb-20 để tránh bottom nav che nội dung trên mobile
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <QueryProvider>{children}</QueryProvider>
-        </ThemeProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

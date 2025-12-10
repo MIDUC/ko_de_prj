@@ -1,6 +1,7 @@
 import React from "react";
 import { SearchWidget } from "./search-widget";
 import { Plane, Tag, ShieldCheck, Clock, ArrowRight } from "lucide-react";
+import Header from "@/components/layout/flight/header";
 
 // --- 1. ĐỊNH NGHĨA KIỂU DỮ LIỆU (FIX LỖI 'ANY') ---
 interface Flight {
@@ -58,6 +59,7 @@ export default async function FlightsPage({ searchParams }: Props) {
   if (!isSearching) {
     return (
       <div className="min-h-screen bg-gray-50 pb-20">
+        <Header />
         {/* Banner Section */}
         <div className="relative h-min-h-[400px] w-full bg-slate-900 flex flex-col justify-center pb-20">
           {/* Ảnh nền - Bạn nhớ tải ảnh về hoặc dùng link ảnh thật */}

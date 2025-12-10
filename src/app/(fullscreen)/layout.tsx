@@ -13,7 +13,7 @@ export default function FullscreenLayout({
         2. Vẫn giữ Header và MobileNav để điều hướng.
       */}
 
-      <SiteHeader />
+      {/* <SiteHeader /> */}
 
       {/* Phần nội dung chính (Page.tsx sẽ được render vào đây) */}
       <main className="flex-1 w-full">{children}</main>

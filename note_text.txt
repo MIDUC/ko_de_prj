@@ -1,0 +1,9 @@
+Quy tắc đặt tên:
+- Thư mục Route (App Router): (Chữ thường, nối gạch ngang)
+VD:app/hotel-detail/
+- Component File: (Viết hoa chữ cái đầu mỗi từ)
+VD: BookingForm.tsx
+- File tiện ích (Utils/Hooks/Libs): camelCase (Chữ cái đầu thường)
+VD: formatDate.ts, useAuth.ts
+- File hằng số/Config: camelCase hoặc kebab-case
+VD: siteConfig.ts, tailwind.config.ts
