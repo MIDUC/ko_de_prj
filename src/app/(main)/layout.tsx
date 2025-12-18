@@ -1,13 +1,16 @@
+"use client";
 import React from "react";
 import Sidebar from "@/components/features/home/Sidebar";
 import Header from "@/components/layout/home/header";
 import MobileNav from "@/components/common/MobileNav";
-
+import { useSidebarStore } from "@/store/use-sidebar-store"; // Import store
+import { cn } from "@/lib/utils";
 export default function MainLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const { isOpen } = useSidebarStore(); // Lấy trạng thái đóng mở
   return (
     <div className="min-h-screen bg-gray-50">
       {/* 1. HEADER (Nằm trên cùng, bao trùm toàn bộ) */}
@@ -18,17 +21,23 @@ export default function MainLayout({
         <Header />
       </div>
 
-      {/* 2. SIDEBAR (Nằm bên trái, NHƯNG bên dưới Header) */}
-      {/* top-16: Cách đỉnh 16 đơn vị (64px) để không đè lên Header */}
-      {/* h-[calc(100vh-4rem)]: Chiều cao bằng màn hình trừ đi Header */}
-      <aside className="hidden md:block w-64 bg-white border-r border-gray-200 fixed left-0 top-16 bottom-0 z-40 overflow-y-auto">
+      <aside
+        className={cn(
+          "bg-white border-r border-gray-200 fixed left-0 top-16 bottom-0 z-40 overflow-y-auto transition-all duration-300 ease-in-out scrollbar-hide",
+          // 👇 CHỖ NÀY PHẢI LÀ w-20 ĐỂ KHỚP VỚI CODE TRÊN
+          isOpen ? "w-64" : "w-20 -translate-x-full md:translate-x-0 md:w-20"
+        )}
+      >
         <Sidebar />
       </aside>
 
-      {/* 3. MAIN CONTENT (Nội dung chính) */}
-      {/* pt-16: Đẩy nội dung xuống 64px để không bị Header che */}
-      {/* md:pl-64: Đẩy nội dung sang phải 256px để không bị Sidebar che */}
-      <main className="pt-16 md:pl-64 min-h-screen w-full">
+      <main
+        className={cn(
+          "pt-16 min-h-screen w-full transition-all duration-300 ease-in-out",
+          // 👇 CHỖ NÀY CŨNG PHẢI LÀ pl-20
+          isOpen ? "md:pl-64" : "md:pl-20"
+        )}
+      >
         <div className="p-4 md:p-6">{children}</div>
       </main>
 

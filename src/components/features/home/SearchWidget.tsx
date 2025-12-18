@@ -106,7 +106,7 @@ export default function SearchWidget() {
         </div>
 
         {/* Nút đảo chiều (Nằm giữa 2 ô city) */}
-        <div className="md:col-span-1 flex items-center justify-center -my-3 md:my-0 z-20">
+        <div className="md:col-span-1 flex items-center justify-center -my-3 md:my-0">
           <button
             onClick={handleSwapCities}
             className="bg-white border border-gray-200 p-2 rounded-full hover:bg-blue-50 hover:border-blue-200 hover:text-blue-600 transition shadow-sm group"

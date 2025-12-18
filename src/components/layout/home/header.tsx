@@ -10,30 +10,35 @@ import {
   FileText,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
+import { useSidebarStore } from "@/store/use-sidebar-store";
 export default function Header() {
+  const { toggle } = useSidebarStore();
   return (
     // sticky top-0: Ghim thanh này lên đỉnh màn hình khi cuộn
     <header className="sticky top-0 z-50 w-full bg-white border-b border-gray-200 shadow-sm">
-      <div className="max-w-[1920px] mx-auto h-16 flex items-center justify-between gap-4">
+      <div className="p-4 mx-auto h-16 flex items-center justify-between gap-4">
         {/* --- 1. LEFT: Logo & Menu --- */}
         <div className="flex items-center gap-4 shrink-0">
           {/* Nút Menu (Hamburger) */}
-          <button className=" hover:bg-gray-100 rounded-lg text-gray-600">
+          <button
+            onClick={toggle}
+            className=" p-4 hover:bg-gray-100 rounded-lg text-gray-600 transition-colors"
+          >
             <Menu size={24} />
           </button>
 
-          {/* Logo Trip.com */}
           <Link
             href="/"
-            className="flex items-center gap-0.5 text-2xl font-bold tracking-tighter "
+            className="flex items-center gap-0.5 text-3xl font-bold tracking-tighter"
           >
             <span className="text-blue-600">Kode</span>
-            <span className="text-orange-500">.</span>
+            <span className="text-orange-500 text-3xl leading-none pt-1">
+              .
+            </span>
             <span className="text-blue-600">com</span>
           </Link>
 
-          <div className="flex w-full group focus-within:ring-2 focus-within:ring-blue-200 rounded-lg transition-all md:min-w-[500px]">
+          <div className="flex px-4.5 w-full group focus-within:ring-2 focus-within:ring-blue-200 rounded-lg transition-all md:min-w-[500px]">
             <input
               type="text"
               placeholder="Điểm đến, địa điểm tham quan, khách sạn..."

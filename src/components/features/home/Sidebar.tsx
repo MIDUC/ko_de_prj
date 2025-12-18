@@ -1,5 +1,9 @@
+"use client";
+
 import { Hotel, Plane, Train, Car, Map, Ticket } from "lucide-react";
 import Link from "next/link";
+import { useSidebarStore } from "@/store/use-sidebar-store";
+import { cn } from "@/lib/utils";
 
 const MENU_ITEMS = [
   { icon: Hotel, label: "Khách sạn & Chỗ nghỉ", href: "/hotel" },
@@ -11,20 +15,42 @@ const MENU_ITEMS = [
 ];
 
 export default function Sidebar() {
+  const { isOpen } = useSidebarStore();
+
   return (
-    // hidden: Ẩn trên mobile
-    // md:flex: Hiện trên màn hình desktop (medium trở lên)
-    <aside className="hidden md:flex flex-col w-64 bg-white border-r border-gray-200 h-screen sticky top-0 p-4 space-y-2 z-40">
+    <div className="flex flex-col h-full py-4 space-y-2">
       {MENU_ITEMS.map((item, index) => (
         <Link
           key={index}
           href={item.href}
-          className="flex items-center gap-3 p-3 rounded-lg hover:bg-blue-50 text-gray-700 hover:text-blue-600 transition-colors font-medium"
+          title={!isOpen ? item.label : undefined}
+          // p-0: Bỏ padding của thẻ Link để tự quản lý bên trong
+          className={cn(
+            "flex items-center rounded-lg hover:bg-blue-50 text-gray-700 hover:text-blue-600 transition-all duration-300 font-medium group min-h-[48px] overflow-hidden",
+            // Luôn luôn justify-start để icon không bị chạy
+            "justify-start"
+          )}
         >
-          <item.icon size={20} />
-          <span>{item.label}</span>
+          {/* 🔥 MẤU CHỐT Ở ĐÂY: 
+            Tạo 1 cái hộp cố định (w-20 = 80px) chứa Icon.
+            Dù mở hay đóng, hộp này vẫn rộng 80px và Icon luôn nằm giữa hộp đó.
+          */}
+          <div className="w-20 h-12 flex items-center justify-center shrink-0">
+            <item.icon size={24} strokeWidth={1.5} />
+          </div>
+
+          {/* Text nằm bên phải cái hộp icon */}
+          <span
+            className={cn(
+              "whitespace-nowrap overflow-hidden transition-all duration-300 origin-left",
+              // Nếu mở: Hiện chữ. Nếu đóng: Width = 0
+              isOpen ? "w-auto opacity-100 pr-4" : "w-0 opacity-0"
+            )}
+          >
+            {item.label}
+          </span>
         </Link>
       ))}
-    </aside>
+    </div>
   );
 }

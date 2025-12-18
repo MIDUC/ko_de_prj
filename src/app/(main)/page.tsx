@@ -9,7 +9,7 @@ export default function HomePage() {
     <div className="flex min-h-screen bg-gray-50 pb-24 md:pb-0">
       <div className="flex-1 flex flex-col min-w-0">
         {/* 1. Banner Xanh */}
-        <section className="bg-linear-to-r from-blue-600 to-blue-500 h-64 md:h-80 relative overflow-hidden">
+        <section className="bg-linear-to-r from-blue-600 to-blue-500 h-64 md:h-120 relative overflow-hidden rounded-2xl">
           {/* Trang trí nền (Optional) */}
           <div className="absolute top-0 left-0 w-full h-full opacity-10 bg-[url('https://pages.trip.com/images/home-banner-bg.png')] bg-cover bg-center" />
 
@@ -25,7 +25,7 @@ export default function HomePage() {
 
         {/* 2. SEARCH WIDGET (Thanh tìm kiếm) */}
         {/* -mt-32: Kéo ngược lên để đè lên banner xanh */}
-        <div className="px-4 md:px-8 lg:px-12 -mt-32 relative z-20 mb-12">
+        <div className="px-4 md:px-8 lg:px-12 -mt-50 relative z-20 mb-12">
           <div className="max-w-6xl mx-auto">
             <SearchWidget />
           </div>
