@@ -1,42 +1,52 @@
+/**
+ * Flight search widget component
+ * Main search form for flight bookings on homepage
+ */
+
 "use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { format, addDays } from "date-fns";
-import { Search, User, ArrowRightLeft } from "lucide-react"; // Icon ArrowRightLeft cho nút đảo chiều
+import { Search, User, ArrowRightLeft } from "lucide-react";
 import { DateRange } from "react-day-picker";
 
 import { Button } from "@/components/ui/button";
 import CityPicker from "@/components/features/search/CityPicker";
 import { DateRangePicker } from "@/components/features/search/DateRangePicker";
-import { cn } from "@/lib/utils";
+import { ROUTES } from "@/constants/routes";
 
 export default function SearchWidget() {
   const router = useRouter();
 
-  // --- STATE QUẢN LÝ ---
+  // Trip type: one-way or round-trip
   const [tripType, setTripType] = useState<"one-way" | "round-trip">("one-way");
+  
+  // City codes for departure and arrival
   const [fromCity, setFromCity] = useState("HAN");
   const [toCity, setToCity] = useState("SGN");
 
-  // Ngày đi (Cho một chiều)
+  // Date for one-way trip
   const [date, setDate] = useState<Date | undefined>(new Date());
 
-  // Ngày khoảng (Cho khứ hồi) - Mặc định đi hôm nay, về sau 3 ngày
+  // Date range for round-trip (default: today to 3 days later)
   const [dateRange, setDateRange] = useState<DateRange | undefined>({
     from: new Date(),
     to: addDays(new Date(), 3),
   });
 
-  // --- HÀM XỬ LÝ ---
-
-  // 1. Đảo ngược điểm đi và đến
+  /**
+   * Swap departure and arrival cities
+   */
   const handleSwapCities = () => {
     setFromCity(toCity);
     setToCity(fromCity);
   };
 
-  // 2. Xử lý tìm kiếm
+  /**
+   * Handle search form submission
+   * Navigate to flight search results page with query parameters
+   */
   const handleSearch = () => {
     const params = new URLSearchParams({
       from: fromCity,
@@ -53,12 +63,12 @@ export default function SearchWidget() {
       params.set("type", "round-trip");
     }
 
-    router.push(`/flights/search?${params.toString()}`);
+    router.push(`${ROUTES.FLIGHTS_SEARCH}?${params.toString()}`);
   };
 
   return (
     <div className="bg-white rounded-2xl shadow-xl p-4 md:p-6 space-y-5">
-      {/* 1. TOP: Chọn loại vé & Hạng ghế */}
+      {/* Trip type selection and class selector */}
       <div className="flex flex-wrap gap-6 text-sm font-bold text-gray-700">
         <div className="flex items-center gap-4">
           <label className="flex items-center gap-2 cursor-pointer select-none">
@@ -83,7 +93,7 @@ export default function SearchWidget() {
           </label>
         </div>
 
-        {/* Placeholder cho Hạng ghế (Sau này làm Popover) */}
+        {/* Class selector (placeholder for future implementation) */}
         <div className="flex items-center gap-1 cursor-pointer hover:text-blue-600 ml-auto md:ml-0">
           <span>Phổ thông</span>
           <svg width="10" height="6" viewBox="0 0 10 6" fill="none">
@@ -98,19 +108,20 @@ export default function SearchWidget() {
         </div>
       </div>
 
-      {/* 2. MIDDLE: Grid nhập liệu */}
+      {/* Search form fields */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-4 relative">
-        {/* Điểm đi (3 cột) */}
+        {/* Departure city */}
         <div className="md:col-span-3 z-30">
           <CityPicker label="TỪ" value={fromCity} onChange={setFromCity} />
         </div>
 
-        {/* Nút đảo chiều (Nằm giữa 2 ô city) */}
+        {/* Swap cities button */}
         <div className="md:col-span-1 flex items-center justify-center -my-3 md:my-0">
           <button
             onClick={handleSwapCities}
             className="bg-white border border-gray-200 p-2 rounded-full hover:bg-blue-50 hover:border-blue-200 hover:text-blue-600 transition shadow-sm group"
             title="Đảo ngược điểm đi/đến"
+            aria-label="Swap cities"
           >
             <ArrowRightLeft
               size={16}
@@ -119,12 +130,12 @@ export default function SearchWidget() {
           </button>
         </div>
 
-        {/* Điểm đến (3 cột) */}
+        {/* Arrival city */}
         <div className="md:col-span-3 z-30">
           <CityPicker label="ĐẾN" value={toCity} onChange={setToCity} />
         </div>
 
-        {/* Chọn ngày (3 cột) */}
+        {/* Date picker */}
         <div className="md:col-span-3 z-30">
           <DateRangePicker
             tripType={tripType}
@@ -135,7 +146,7 @@ export default function SearchWidget() {
           />
         </div>
 
-        {/* Chọn khách (2 cột) */}
+        {/* Passengers selector (placeholder) */}
         <div className="md:col-span-2">
           <label className="text-xs text-gray-500 font-bold ml-1 uppercase">
             Hành khách
@@ -149,7 +160,7 @@ export default function SearchWidget() {
         </div>
       </div>
 
-      {/* 3. BOTTOM: Nút tìm kiếm */}
+      {/* Search button */}
       <div className="flex justify-end pt-2">
         <Button
           size="lg"
